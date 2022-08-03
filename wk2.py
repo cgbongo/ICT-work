@@ -59,10 +59,12 @@ def taylor_log(x, n):
     term = log_func(x)
     output = term
     for i in range(1, n+1):
-        term = ctl_diff(log_func, a, 0.01)
+        term = ctl_diff(log_func, a, 0.00001)
         output += term/factorial(i) * (x-a)**i
     return output
 
+taylor_exact = np.log(2) + 0.5*(x-1) - 1/8 * (x-1)**2 + 1/24 * (x-1)**3
 plt.plot(x, log_func(x))
-plt.plot(x, taylor_log(x, 3))
+plt.plot(x, taylor_log(x, 6))
+plt.plot(x, taylor_exact)
 plt.show()
