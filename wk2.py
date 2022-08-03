@@ -43,28 +43,33 @@ plt.gca().set_aspect('equal')
 plt.show()
 
 #Log function
-def ctl_diff(f, x, h):
-    return (f(x+h) - f(x-h))/(2*h)
+def df(f, x, h, i):
+    if i == 1:
+        return (f(x+h) - f(x-h))/(2*h) 
+    if i == 2:
+        return (f(x+h) - 2*f(x) + f(x-h))/(h**2)
+    if i == 3:
+        return (f(x+2*h) - 2*f(x+h) + 2*f(x-h) - f(x-2*h))/(2*(h**3))
 
-x = np.linspace(-1, 3, 100)
+x = np.linspace(-1, 5, 200)
 a = 1
 
+    #exact
 def log_func(x):
     return np.log(1+x)
 
-def df(f, x, h):
-    return ctl_diff(f, x, h)
-
-def taylor_log(x, n):
-    term = log_func(x)
-    output = term
+    #auto taylor
+def taylor_log(x, n, h):
+    taylor_sum = log_func(a)
     for i in range(1, n+1):
-        term = ctl_diff(log_func, a, 0.00001)
-        output += term/factorial(i) * (x-a)**i
-    return output
+        term = df(log_func, a, h, i)
+        taylor_sum += term/factorial(i) * (x-a)**i
+    return taylor_sum
 
-taylor_exact = np.log(2) + 0.5*(x-1) - 1/8 * (x-1)**2 + 1/24 * (x-1)**3
-plt.plot(x, log_func(x))
-plt.plot(x, taylor_log(x, 6))
-plt.plot(x, taylor_exact)
-plt.show()
+exact = log_func(x)
+for h in np.geomspace(0.1, 1e-6, 5):
+    taylor = taylor_log(x, 3, h)
+    error = np.abs(taylor - exact)
+    
+
+
