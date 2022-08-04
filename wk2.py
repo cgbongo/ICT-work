@@ -65,11 +65,3 @@ def taylor_log(x, n, h):
         term = df(log_func, a, h, i)
         taylor_sum += term/factorial(i) * (x-a)**i
     return taylor_sum
-
-exact = log_func(x)
-for h in np.geomspace(0.1, 1e-6, 5):
-    taylor = taylor_log(x, 3, h)
-    error = np.abs(taylor - exact)
-    
-
-
