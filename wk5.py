@@ -22,7 +22,7 @@ p2 = X**2
 
 P = np.column_stack((p0, p1, p2))
 
-a = np.linalg.inv(P.T @ P) @ P.T @ F
+a = np.linalg.inv(P.T @ P) @ (P.T @ F)
 smooth_x = np.linspace(0, 3)
 fitted_trend = a[0] + a[1] * smooth_x + a[2] * smooth_x**2
 fig, ax = plt.subplots()
